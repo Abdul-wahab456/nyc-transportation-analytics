@@ -326,33 +326,26 @@ erDiagram
     %% ================================================================
 
 ```mermaid
+erDiagram
     FACT_TAXI_TRIPS {
         string trip_key PK "Unique trip identifier"
         date pickup_date_key FK "→ DIM_DATE"
         int pickup_location_key FK "→ DIM_LOCATION"
         int dropoff_location_key FK "→ DIM_LOCATION"
         string taxi_type_key FK "→ DIM_TAXI_TYPE"
-        
-        %% Core Trip Measures
         float fare_amount "Base fare ($)"
         float tip_amount "Tip amount ($)"
         float total_amount "Total trip cost ($)"
         float trip_distance "Distance in miles"
         int trip_duration_minutes "Duration in minutes"
-        
-        %% Calculated Measures
         float fare_per_mile "Revenue efficiency"
         float avg_speed_mph "Average speed"
         float tip_percentage "Tip as % of fare"
         float revenue_per_hour_actual "Hourly revenue"
-        
-        %% Business Flags
         boolean is_efficient_trip "Quality flag"
         boolean is_likely_satisfied_customer "Satisfaction proxy"
         boolean is_peak_demand_trip "Demand indicator"
         boolean is_leisure_trip "Trip purpose"
-        
-        %% Dimensional Attributes (Denormalized)
         string pickup_borough "Pickup borough name"
         string dropoff_borough "Dropoff borough name"
         string taxi_type_name "Yellow/Green/FHV"
@@ -365,23 +358,17 @@ erDiagram
 
     DIM_DATE {
         date date_day PK "Primary date key"
-        
-        %% Time Hierarchy
         int year "2024, 2025..."
         int quarter "1, 2, 3, 4"
         int month "1-12"
         int day "1-31"
         string day_name "Monday, Tuesday..."
         string month_name "January, February..."
-        
-        %% Business Calendar
         boolean is_weekend "Sat/Sun flag"
         boolean is_business_day "Weekday non-holiday"
         boolean is_federal_holiday "Holiday flag"
         string federal_holiday "Holiday name"
         string special_event "NYC events"
-        
-        %% Seasonal Patterns
         string season "Winter/Spring/Summer/Fall"
         string school_period "Academic calendar"
         string quarter_name "Q1, Q2, Q3, Q4"
@@ -389,21 +376,15 @@ erDiagram
 
     DIM_LOCATION {
         int location_id PK "NYC TLC Zone ID"
-        
-        %% Geographic Hierarchy
         string borough "Manhattan/Brooklyn/Queens/Bronx/SI"
         string zone_name "Specific zone name"
         string district_type "Business/Residential/Airport"
         string urban_classification "Urban Core/Inner/Outer"
-        
-        %% Business Characteristics
         boolean is_tourism_area "Tourist destination"
         boolean is_high_traffic "High volume zone"
         boolean is_airport "Airport zone"
         string economic_tier "High/Medium/Low value"
         string zone_classification "Business categorization"
-        
-        %% Performance Metrics
         int total_trip_volume "Total trips (pickup+dropoff)"
         float avg_fare_overall "Average fare amount"
         int popularity_rank "Volume ranking"
@@ -414,22 +395,16 @@ erDiagram
 
     DIM_TAXI_TYPE {
         string taxi_type_id PK "yellow/green/fhv"
-        
-        %% Service Characteristics
         string taxi_type_name "Yellow Taxi/Green Taxi/FHV"
         string description "Service description"
         string service_positioning "Market position"
         string booking_method "How customers book"
         string service_area "Geographic coverage"
-        
-        %% Regulatory Framework
         boolean is_traditional_taxi "Traditional vs ride-share"
         boolean is_ride_share "App-based service"
         boolean is_medallion_taxi "Medallion required"
         string regulation_type "TLC licensing type"
         string pricing_model "Metered vs Dynamic"
-        
-        %% Performance Metrics
         int total_trips "Total trip volume"
         float avg_fare_amount "Average fare"
         float market_share_trips_pct "Market share by trips"
@@ -438,42 +413,9 @@ erDiagram
         string availability_model "Service availability"
     }
 
-    %% CORE STAR SCHEMA RELATIONSHIPS
-    FACT_TAXI_TRIPS ||--|| DIM_DATE : "Daily patterns"
-    FACT_TAXI_TRIPS ||--|| DIM_LOCATION : "Pickup location"
-    FACT_TAXI_TRIPS ||--|| DIM_LOCATION : "Dropoff location"
-    FACT_TAXI_TRIPS ||--|| DIM_TAXI_TYPE : "Service type"
-
-    %% BUSINESS RULES ANNOTATIONS
-    FACT_TAXI_TRIPS {
-        note "• One row per trip
-              • ~50K records from CSV files
-              • Granularity: Individual trip
-              • Updates: Daily batch load
-              • Quality: A/B grade data"
-    }
-
-    DIM_DATE {
-        note "• Standard date dimension
-              • Range: 2020-2025
-              • Includes NYC holidays
-              • Business calendar ready
-              • Type 1 SCD"
-    }
-
-    DIM_LOCATION {
-        note "• Based on NYC TLC zones
-              • 265 official zones
-              • Enriched with business context
-              • Performance statistics
-              • Type 1 SCD"
-    }
-
-    DIM_TAXI_TYPE {
-        note "• 3 main service types
-              • Yellow: Manhattan focus
-              • Green: Outer boroughs
-              • FHV: Uber/Lyft/etc
-              • Type 1 SCD"
-    }
+    %% Relationships
+    FACT_TAXI_TRIPS ||--|| DIM_DATE : "pickup_date_key"
+    FACT_TAXI_TRIPS ||--|| DIM_LOCATION : "pickup_location_key"
+    FACT_TAXI_TRIPS ||--|| DIM_LOCATION : "dropoff_location_key"
+    FACT_TAXI_TRIPS ||--|| DIM_TAXI_TYPE : "taxi_type_key"
 ```
