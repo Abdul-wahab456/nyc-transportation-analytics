@@ -4,36 +4,44 @@ data/raw/*.csv
 *.parquet
 *.csv
 
-# Python
+# Python bytecode
 __pycache__/
 *.py[cod]
 *$py.class
 *.so
 .Python
+
+# Virtual environments
 env/
 venv/
 ENV/
 .venv/
+pro_env/
 
-# Jupyter Notebook
+# Jupyter Notebooks
 .ipynb_checkpoints
 
-# IDE
+# IDEs
 .vscode/
 .idea/
 *.swp
 *.swo
 
-# OS
+# OS files
 .DS_Store
 Thumbs.db
-
-# Snowflake credentials
-**/snowflake_config.yml
-**/*credentials*
-**/*secrets*
-.env
 
 # Logs
 *.log
 logs/
+
+# DBT folders
+dbt_modules/
+dbt_packages/
+target/
+
+# Snowflake credentials and sensitive files
+**/snowflake_config.yml
+**/*credentials*
+**/*secrets*
+.env
