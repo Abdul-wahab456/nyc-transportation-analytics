@@ -1,0 +1,25 @@
+nyc_transportation_dw:
+  target: dev
+  outputs:
+    dev:
+      type: snowflake
+      account: IAUOIGR-MU26544
+      user: ABDULWAHAB456
+      password: Abdulwahab7890
+      role: ACCOUNTADMIN
+      database: NYC_TRANSPORTATION_DW
+      warehouse: COMPUTE_WH
+      schema: dbt_abdul_dev
+      threads: 4
+      keepalives_idle: 240
+    prod:
+      type: snowflake
+      account: IAUOIGR-MU26544
+      user: ABDULWAHAB456
+      password: Abdulwahab7890
+      role: ACCOUNTADMIN
+      database: NYC_TRANSPORTATION_DW
+      warehouse: COMPUTE_WH
+      schema: ANALYTICS
+      threads: 4
+      keepalives_idle: 240
