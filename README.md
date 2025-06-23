@@ -1,5 +1,6 @@
 # NYC Transportation Analytics Platform
-
+# Documentation link on Notion
+https://www.notion.so/Data-Warehouse-Project-21ab855b64fa8069af9fef0b2ebc1be4?source=copy_link
 A comprehensive data engineering and analytics project analyzing NYC taxi and ride-sharing data.
 
 ## 🎯 Project Overview
